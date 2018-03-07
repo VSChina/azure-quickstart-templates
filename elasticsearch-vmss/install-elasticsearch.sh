@@ -122,16 +122,17 @@ install_es()
     echo "deb https://artifacts.elastic.co/packages/6.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-6.x.list
     apt-get update -y
     apt-get install -y elasticsearch
-    pushd /usr/share/elasticsearch/
-    bin/elasticsearch-plugin install x-pack --batch
-    popd
+    #do not install x-pack
+    #pushd /usr/share/elasticsearch/
+    #bin/elasticsearch-plugin install x-pack --batch
+    #popd
 
     if [ ${IS_DATA_NODE} -eq 0 ];
     then
         apt-get install -y kibana
-        pushd /usr/share/kibana/
-        bin/kibana-plugin install x-pack
-        popd
+        #pushd /usr/share/kibana/
+        #bin/kibana-plugin install x-pack
+        #popd
     fi
 }
 
@@ -198,7 +199,8 @@ configure_system()
         then
             log "Disk setup successful, using $DATA_DIR"
             chown -R elasticsearch:elasticsearch $DATA_DIR
-            echo "DATA_DIR=$DATA_DIR" >> /etc/default/elasticsearch
+            #echo "DATA_DIR=$DATA_DIR" >> /etc/default/elasticsearch
+            echo "path.data: $DATA_DIR" >> /etc/elasticsearch/elasticsearch.yml
         else
             log "Disk setup failed, using default data storage location"
         fi
