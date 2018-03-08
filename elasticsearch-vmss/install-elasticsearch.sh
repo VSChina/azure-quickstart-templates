@@ -35,7 +35,7 @@ help()
 # Log method to control/redirect log output
 log()
 {
-    echo "$1"
+    echo "$1" | tee -a /tmp/output.log
 }
 
 log "Begin execution of Elasticsearch script extension on ${HOSTNAME}"
@@ -199,8 +199,8 @@ configure_system()
         then
             log "Disk setup successful, using $DATA_DIR"
             chown -R elasticsearch:elasticsearch $DATA_DIR
-            #echo "DATA_DIR=$DATA_DIR" >> /etc/default/elasticsearch
-            echo "path.data: $DATA_DIR" >> /etc/elasticsearch/elasticsearch.yml
+            echo "DATA_DIR=$DATA_DIR" >> /etc/default/elasticsearch
+            #echo "path.data: $DATA_DIR" >> /etc/elasticsearch/elasticsearch.yml
         else
             log "Disk setup failed, using default data storage location"
         fi
